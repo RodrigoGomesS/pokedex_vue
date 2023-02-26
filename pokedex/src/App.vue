@@ -8,12 +8,8 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-pagination
-  v-model="page"
-  :length="Math.ceil(filteredPokemons.length / itemsPerPage)"
-  :total-visible="5"
-  circle
-/>
+    <poke-pagination :items="filteredPokemons" :filter-value="filterValue" :items-per-page="itemsPerPage"
+      :page.sync="page" />
   </v-app>
 </template>
 
@@ -22,6 +18,7 @@
 import axios from 'axios';
 import PokedexMenu from '@/components/Menu.vue';
 import PokemonCard from '@/components/PokemonCard.vue';
+import PokePagination from '@/components/PokePagination.vue';
 
 export default {
   name: 'App',
@@ -29,6 +26,7 @@ export default {
   components: {
     PokedexMenu,
     PokemonCard,
+    PokePagination,
   },
 
   data() {
@@ -36,7 +34,7 @@ export default {
       pokemons: [],
       filterValue: "",
       page: 1,
-    itemsPerPage: 10
+      itemsPerPage: 10
     }
   },
 
@@ -52,9 +50,9 @@ export default {
     },
 
     paginatedPokemons() {
-    const startIndex = (this.page - 1) * this.itemsPerPage;
-    return this.filteredPokemons.slice(startIndex, startIndex + this.itemsPerPage);
-  }
+      const startIndex = (this.page - 1) * this.itemsPerPage;
+      return this.filteredPokemons.slice(startIndex, startIndex + this.itemsPerPage);
+    }
   },
 
   mounted() {
@@ -81,5 +79,4 @@ export default {
   background-position: center;
   min-height: 100vh;
 }
-
 </style>
