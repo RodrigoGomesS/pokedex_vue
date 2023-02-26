@@ -8,8 +8,9 @@
         </v-col>
       </v-row>
     </v-container>
+    <pokedex-error message="Nenhum pokémon encontrado." :show="showError" />
     <poke-pagination :items="filteredPokemons" :filter-value="filterValue" :items-per-page="itemsPerPage"
-      :page.sync="page" />
+      :page.sync="page"  v-if="!showError" />
   </v-app>
 </template>
 
@@ -19,6 +20,7 @@ import axios from 'axios';
 import PokedexMenu from '@/components/Menu.vue';
 import PokemonCard from '@/components/PokemonCard.vue';
 import PokePagination from '@/components/PokePagination.vue';
+import PokedexError from "@/components/PokedexError.vue";
 
 export default {
   name: 'App',
@@ -27,6 +29,7 @@ export default {
     PokedexMenu,
     PokemonCard,
     PokePagination,
+    PokedexError,
   },
 
   data() {
@@ -34,7 +37,8 @@ export default {
       pokemons: [],
       filterValue: "",
       page: 1,
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      showError: false,
     }
   },
 
@@ -66,6 +70,7 @@ export default {
     filterPokemons(value) {
       this.filterValue = value;
       this.page = 1;
+      this.showError = this.filteredPokemons.length === 0 && this.filterValue !== "";
     },
   },
 
