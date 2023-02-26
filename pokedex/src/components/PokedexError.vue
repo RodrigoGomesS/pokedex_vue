@@ -7,6 +7,7 @@
             <a href="https://fontmeme.com/pt/fonte-de-pokemon/"><img style="max-width: 100%; height: auto;"
                     src="https://fontmeme.com/permalink/230226/dc6bce53b818cda744c184aaf057d185.png" alt="fonte-de-pokemon"
                     border="0"></a>
+            <v-btn dark class="fonte-button" @click="reloadPage">Home</v-btn>
         </v-container>
     </v-alert>
 </template>
@@ -24,6 +25,12 @@ export default {
             default: false,
         },
     },
+
+    methods: {
+        reloadPage() {
+            location.reload();
+        }
+    }
 };
 </script>
 
@@ -34,5 +41,11 @@ export default {
     border-radius: 4px;
     padding: 8px;
     margin-bottom: 16px;
+}
+
+.fonte-button {
+    color: #ffce3c !important;
+    background-color: #356abc !important;
+    font-weight: bolder;
 }
 </style>
