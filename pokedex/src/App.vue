@@ -3,7 +3,7 @@
     <pokedex-menu :filter-value="filterValue" @filter-pokemons="filterPokemons" />
     <v-container>
       <v-row>
-        <v-col cols="12" sm="3" v-for="pokemon in filteredPokemons" :key="pokemon.name">
+        <v-col cols="12" sm="3" v-for="pokemon in paginatedPokemons" :key="pokemon.name">
           <v-card class="gradient">
             <v-img
               :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${getId(pokemon)}.gif`"
@@ -15,6 +15,12 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-pagination
+  v-model="page"
+  :length="Math.ceil(filteredPokemons.length / itemsPerPage)"
+  :total-visible="5"
+  circle
+/>
   </v-app>
 </template>
 
@@ -33,6 +39,8 @@ export default {
     return {
       pokemons: [],
       filterValue: "",
+      page: 1,
+    itemsPerPage: 10
     }
   },
 
@@ -46,10 +54,15 @@ export default {
         return this.pokemons;
       }
     },
+
+    paginatedPokemons() {
+    const startIndex = (this.page - 1) * this.itemsPerPage;
+    return this.filteredPokemons.slice(startIndex, startIndex + this.itemsPerPage);
+  }
   },
 
   mounted() {
-    axios.get(" https://pokeapi.co/api/v2/pokemon?limit=300").then((response) => {
+    axios.get(" https://pokeapi.co/api/v2/pokemon?limit=1000").then((response) => {
       this.pokemons = response.data.results
     })
 
@@ -58,6 +71,7 @@ export default {
   methods: {
     filterPokemons(value) {
       this.filterValue = value;
+      this.page = 1;
     },
 
     getId(pokemon) {
