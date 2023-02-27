@@ -3,7 +3,7 @@
     <pokedex-menu :filter-value="filterValue" @filter-pokemons="filterPokemons" />
     <v-container>
       <v-row>
-        <v-col cols="12" sm="3" v-for="pokemon in paginatedPokemons" :key="pokemon.name">
+        <v-col cols="12" sm="6" md="3" v-for="pokemon in paginatedPokemons" :key="pokemon.name">
           <pokemon-card :pokemon="pokemon" />
         </v-col>
       </v-row>
@@ -37,7 +37,7 @@ export default {
       pokemons: [],
       filterValue: "",
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 12,
       showError: false,
     }
   },
