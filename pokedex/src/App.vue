@@ -10,7 +10,7 @@
     </v-container>
     <pokedex-error message="Nenhum pokémon encontrado." :show="showError" />
     <poke-pagination :items="filteredPokemons" :filter-value="filterValue" :items-per-page="itemsPerPage"
-      :page.sync="page"  v-if="!showError" />
+      :page.sync="page" v-if="!showError" />
   </v-app>
 </template>
 
