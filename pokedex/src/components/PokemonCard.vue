@@ -4,8 +4,12 @@
       <div class="pokeNumero">N°{{ getId(pokemon) }}</div>
       <div class="custom-title">{{ pokemon.name }}</div>
       <div class="d-flex">
-        <div :class="[translateType(type.type.name), 'tipo', 'mr-1']" v-for="(type, index) in types" :key="index">{{
-          translateType(type.type.name) }}</div>
+        <div :class="[translateType(type.type.name), 'tipo', 'mr-1', 'd-flex','align-center']" v-for="(type, index) in types" :key="index">
+          <div :class="['tag-element','d-flex','align-center','mr-1']">
+            <img :class="['responsive-image']" src="../assets/elements/normal.png" alt="imagem elemento">
+          </div>
+        {{translateType(type.type.name) }}
+      </div>
       </div>
     </div>
     <div :class="['image-card', typeClass]">
@@ -47,13 +51,11 @@ export default {
       const result = await this.getPokemon(id);
       const primaryType = result.types[0].type.name;
       this.typeClass = primaryType;
-      console.log(this.typeClass)
     },
 
     async getTypes(id) {
       const result = await this.getPokemon(id);
       const types = result.types;
-      console.log(types);
       this.types = types; // Define a variável types com o array de tipos
     },
 
@@ -112,6 +114,13 @@ export default {
   /*background-image: url('../assets/dark.png');*/
 }
 
+.tag-element{
+ width: 20.31px;
+height: 20.31px;
+background: #FFFFFF;
+border-radius: 50%;
+}
+
 .responsive-image {
   max-width: 50%;
   max-height: auto;
@@ -146,56 +155,59 @@ export default {
 .image-card.grass,
 .grama {
   background-color: #63BC5A;
-  background-image: url('../assets/grass.png');
+  background-image: url('../assets/background-element/grass.png');
   background-position: center;
 }
 
 .grama {
   background-image: unset;
   background-position: unset;
-  border-radius: 10px;
+  border-radius: 48px;
 }
 
 .image-card.fire,
 .fogo {
   background-color: #FF9D55;
-  background-image: url('../assets/fire.png');
+  background-image: url('../assets/background-element/fire.png');
   background-position: center;
 }
 
 .fogo {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.water,
 .água {
   background-color: #5090D6;
-  background-image: url('../assets/water.png');
+  background-image: url('../assets/background-element/water.png');
   background-position: center;
 }
 
 .água {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.bug,
 .inseto {
   background-color: #91C12F;
-  background-image: url('../assets/bug.png');
+  background-image: url('../assets/background-element/bug.png');
   background-position: center;
 }
 
 .inseto {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.normal,
 .normal {
   background-color: #919AA2;
-  background-image: url('../assets/normal.png');
+  background-image: url('../assets/background-element/normal.png');
   background-position: center;
 }
 
@@ -207,157 +219,170 @@ export default {
 .image-card.poison,
 .venenoso {
   background-color: #B567CE;
-  background-image: url('../assets/poison.png');
+  background-image: url('../assets/background-element/poison.png');
   background-position: center;
 }
 
 .venenoso {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.electric,
 .elétrico {
   background-color: #F4D23C;
-  background-image: url('../assets/electric.png');
+  background-image: url('../assets/background-element/electric.png');
   background-position: center;
 }
 
 .elétrico {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.ground,
 .terra {
   background-color: #D97845;
-  background-image: url('../assets/ground.png');
+  background-image: url('../assets/background-element/ground.png');
   background-position: center;
 }
 
 .terra {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.fighting,
 .lutador {
   background-color: #CE416B;
-  background-image: url('../assets/fighting.png');
+  background-image: url('../assets/background-element/fighting.png');
   background-position: center;
 }
 
 .lutador {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.psychic,
 .psíquico {
   background-color: #FA7179;
-  background-image: url('../assets/psychic.png');
+  background-image: url('../assets/background-element/psychic.png');
   background-position: center;
 }
 
 .psíquico {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.rock,
 .pedra {
   background-color: #C5B78C;
-  background-image: url('../assets/rock.png');
+  background-image: url('../assets/background-element/rock.png');
   background-position: center;
 }
 
 .pedra {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.flying,
 .voador {
   background-color: #89AAE3;
-  background-image: url('../assets/flying.png');
+  background-image: url('../assets/background-element/flying.png');
   background-position: center;
 }
 
 .voador {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.ghost,
 .fantasma {
   background-color: #5269AD;
-  background-image: url('../assets/ghost.png');
+  background-image: url('../assets/background-element/ghost.png');
   background-position: center;
 }
 
 .fantasma {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.ice,
 .gelo {
   background-color: #73CEC0;
-  background-image: url('../assets/ice.png');
+  background-image: url('../assets/background-element/ice.png');
   background-position: center;
 }
 
 .gelo {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.dragon,
 .dragão {
   background-color: #0B6DC3;
-  background-image: url('../assets/dragon.png');
+  background-image: url('../assets/background-element/dragon.png');
   background-position: center;
 }
 
 .dragão {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.steel,
 .metálico {
   background-color: #5A8EA2;
-  background-image: url('../assets/steel.png');
+  background-image: url('../assets/background-element/steel.png');
   background-position: center;
 }
 
 .metálico {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
-.image-card.sombrio,
+.image-card.dark,
 .sombrio {
   background-color: #5A5465;
-  background-image: url('../assets/dark.png');
+  background-image: url('../assets/background-element/dark.png');
   background-position: center;
 }
 
-.dark {
+.sombrio {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;
 }
 
 .image-card.fairy,
 .fada {
   background-color: #EC8FE6;
-  background-image: url('../assets/fairy.png');
+  background-image: url('../assets/background-element/fairy.png');
   background-position: center;
 }
 
 .fada {
   background-image: unset;
   background-position: unset;
+  border-radius: 48px;  
 }
 
 .grass.gradient {
