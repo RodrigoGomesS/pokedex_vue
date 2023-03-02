@@ -6,7 +6,7 @@
       <div class="d-flex">
         <div :class="[translateType(type.type.name), 'tipo', 'mr-1', 'd-flex','align-center']" v-for="(type, index) in types" :key="index">
           <div :class="['tag-element','d-flex','align-center','mr-1']">
-            <img :class="['responsive-image']" src="../assets/elements/normal.png" alt="imagem elemento">
+            <img :class="['responsive-image']" :src="`https://github.com/RodrigoGomesS/pokedex_vue/blob/main/pokedex/src/assets/elements/${translateType(type.type.name)}.png`" alt="imagem elemento">
           </div>
         {{translateType(type.type.name) }}
       </div>
