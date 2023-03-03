@@ -6,7 +6,7 @@
       <div class="d-flex">
         <div :class="[translateType(type.type.name), 'tipo', 'mr-1', 'd-flex','align-center']" v-for="(type, index) in types" :key="index">
           <div :class="['tag-element','d-flex','align-center','mr-1']">
-            <img :class="['responsive-image']" :src="`https://github.com/RodrigoGomesS/pokedex_vue/blob/main/pokedex/src/assets/elements/${translateType(type.type.name)}.png`" alt="imagem elemento">
+            <img :class="['responsive-image']" :src="getNameType(translateType(type.type.name))" alt="imagem elemento">
           </div>
         {{translateType(type.type.name) }}
       </div>
@@ -22,6 +22,24 @@
   
 <script>
 import axios from 'axios';
+import água from '../assets/elements/água.png';
+import dragão from '../assets/elements/dragão.png';
+import elétrico from '../assets/elements/elétrico.png';
+import fada from '../assets/elements/fada.png';
+import fantasma from '../assets/elements/fantasma.png';
+import fogo from '../assets/elements/fogo.png';
+import gelo from '../assets/elements/gelo.png';
+import grama from '../assets/elements/grama.png';
+import inseto from '../assets/elements/inseto.png';
+import lutador from '../assets/elements/lutador.png';
+import metálico from '../assets/elements/metálico.png';
+import normal from '../assets/elements/normal.png';
+import pedra from '../assets/elements/pedra.png';
+import psíquico from '../assets/elements/psíquico.png';
+import sombrio from '../assets/elements/sombrio.png';
+import terra from '../assets/elements/terra.png';
+import venenoso from '../assets/elements/venenoso.png';
+import voador from '../assets/elements/água.png';
 
 export default {
   name: 'PokemonCard',
@@ -57,6 +75,30 @@ export default {
       const result = await this.getPokemon(id);
       const types = result.types;
       this.types = types; // Define a variável types com o array de tipos
+    },
+
+    getNameType(typeName){
+const typeImage = {
+             'água': água ,
+ 'dragão' : dragão,
+ 'elétrico' : elétrico,
+ 'fada' : fada,
+ 'fantasma' : fantasma,
+ 'fogo' : fogo,
+ 'gelo' : gelo,
+ 'grama' : grama,
+ 'inseto' : inseto,
+ 'lutador' : lutador,
+ 'metálico' : metálico,
+ 'normal' : normal,
+ 'pedra' : pedra,
+ 'psíquico' : psíquico,
+ 'sombrio' : sombrio,
+ 'terra' : terra,
+ 'venenoso' : venenoso,
+ 'voador' : voador,
+    };
+return typeImage[typeName];
     },
 
     translateType(type) {
