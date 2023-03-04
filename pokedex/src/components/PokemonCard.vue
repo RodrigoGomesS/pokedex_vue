@@ -1,5 +1,13 @@
 <template>
-  <div :class="['gradient', typeClass]">
+  <div>
+    <v-dialog v-model="dialog">
+      <pokemon-dialog
+       :pokemon-name="pokemon.name"
+       :pokemon-numero="getId(pokemon)"
+       :pokemon-type="typeClass"
+       ></pokemon-dialog>
+    </v-dialog>
+  <div :class="['gradient', typeClass]" @click="dialog = true">
     <div class="ml-4 d-flex flex-column justify-center">
       <div class="pokeNumero">N°{{ getId(pokemon) }}</div>
       <div class="custom-title">{{ pokemon.name }}</div>
@@ -18,6 +26,8 @@
         contain class="responsive-image"></v-img>
     </div>
   </div>
+</div>
+
 </template>
   
 <script>
@@ -40,104 +50,97 @@ import sombrio from '../assets/elements/sombrio.png';
 import terra from '../assets/elements/terra.png';
 import venenoso from '../assets/elements/venenoso.png';
 import voador from '../assets/elements/água.png';
+import PokemonDialog from '@/components/PokemonDialog.vue';
 
 export default {
-  name: 'PokemonCard',
-  props: {
-    pokemon: Object
-  },
-
-  data() {
-    return {
-      typeClass: '', // inicializa typeClass como uma string vazia
-      types: [], // Inicializa a variável types como um array vazio
-    };
-  },
-
-  methods: {
-    getId(pokemon) {
-      return pokemon.url.split("/")[6]
+    name: "PokemonCard",
+    props: {
+        pokemon: Object
     },
-
-    async getPokemon(id) {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      const pokemon = response.data;
-      return pokemon;
+    data() {
+        return {
+            typeClass: "",
+            types: [],
+            dialog: false,
+        };
     },
-
-    async getFirstType(id) {
-      const result = await this.getPokemon(id);
-      const primaryType = result.types[0].type.name;
-      this.typeClass = primaryType;
+    methods: {
+        getId(pokemon) {
+            return pokemon.url.split("/")[6];
+        },
+        async getPokemon(id) {
+            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            const pokemon = response.data;
+            return pokemon;
+        },
+        async getFirstType(id) {
+            const result = await this.getPokemon(id);
+            const primaryType = result.types[0].type.name;
+            this.typeClass = primaryType;
+        },
+        async getTypes(id) {
+            const result = await this.getPokemon(id);
+            const types = result.types;
+            this.types = types; // Define a variável types com o array de tipos
+        },
+        getNameType(typeName) {
+            const typeImage = {
+                "água": água,
+                "dragão": dragão,
+                "elétrico": elétrico,
+                "fada": fada,
+                "fantasma": fantasma,
+                "fogo": fogo,
+                "gelo": gelo,
+                "grama": grama,
+                "inseto": inseto,
+                "lutador": lutador,
+                "metálico": metálico,
+                "normal": normal,
+                "pedra": pedra,
+                "psíquico": psíquico,
+                "sombrio": sombrio,
+                "terra": terra,
+                "venenoso": venenoso,
+                "voador": voador,
+            };
+            return typeImage[typeName];
+        },
+        translateType(type) {
+            // Define um objeto com as traduções de cada tipo
+            const translations = {
+                "fire": "fogo",
+                "water": "água",
+                "grass": "grama",
+                "bug": "inseto",
+                "normal": "normal",
+                "poison": "venenoso",
+                "electric": "elétrico",
+                "ground": "terra",
+                "fighting": "lutador",
+                "psychic": "psíquico",
+                "rock": "pedra",
+                "flying": "voador",
+                "ghost": "fantasma",
+                "ice": "gelo",
+                "dragon": "dragão",
+                "steel": "metálico",
+                "dark": "sombrio",
+                "fairy": "fada",
+                // Adicione as traduções para os outros tipos
+            };
+            return translations[type] || type; // Retorna a tradução, ou o próprio nome do tipo caso não tenha tradução
+        }
     },
-
-    async getTypes(id) {
-      const result = await this.getPokemon(id);
-      const types = result.types;
-      this.types = types; // Define a variável types com o array de tipos
+    created() {
+        this.getTypes(this.getId(this.pokemon));
+        this.getFirstType(this.getId(this.pokemon));
     },
-
-    getNameType(typeName){
-const typeImage = {
-             'água': água ,
- 'dragão' : dragão,
- 'elétrico' : elétrico,
- 'fada' : fada,
- 'fantasma' : fantasma,
- 'fogo' : fogo,
- 'gelo' : gelo,
- 'grama' : grama,
- 'inseto' : inseto,
- 'lutador' : lutador,
- 'metálico' : metálico,
- 'normal' : normal,
- 'pedra' : pedra,
- 'psíquico' : psíquico,
- 'sombrio' : sombrio,
- 'terra' : terra,
- 'venenoso' : venenoso,
- 'voador' : voador,
-    };
-return typeImage[typeName];
-    },
-
-    translateType(type) {
-      // Define um objeto com as traduções de cada tipo
-      const translations = {
-        'fire': 'fogo',
-        'water': 'água',
-        'grass': 'grama',
-        'bug': 'inseto',
-        'normal': 'normal',
-        'poison': 'venenoso',
-        'electric': 'elétrico',
-        'ground': 'terra',
-        'fighting': 'lutador',
-        'psychic': 'psíquico',
-        'rock': 'pedra',
-        'flying': 'voador',
-        'ghost': 'fantasma',
-        'ice': 'gelo',
-        'dragon': 'dragão',
-        'steel': 'metálico',
-        'dark': 'sombrio',
-        'fairy': 'fada',
-
-
-        // Adicione as traduções para os outros tipos
-      };
-      return translations[type] || type; // Retorna a tradução, ou o próprio nome do tipo caso não tenha tradução
-    }
-  },
-
-  created() {
-    this.getTypes(this.getId(this.pokemon));
-    this.getFirstType(this.getId(this.pokemon));
-  },
+    components: { PokemonDialog }
 }
 </script>
 
-<style scoped>
+<style >
 .gradient {
   display: flex;
   justify-content: space-between;
@@ -498,5 +501,6 @@ border-radius: 50%;
 .fairy.gradient {
   background-color: #FBF1FA;
 }
+
 </style>
-  
+
