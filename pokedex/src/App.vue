@@ -60,7 +60,7 @@ export default {
   },
 
   mounted() {
-    axios.get(" https://pokeapi.co/api/v2/pokemon?limit=1000").then((response) => {
+    axios.get(" https://pokeapi.co/api/v2/pokemon?limit=649").then((response) => {
       this.pokemons = response.data.results
     })
 
