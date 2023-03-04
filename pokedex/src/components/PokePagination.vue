@@ -1,5 +1,5 @@
 <template>
-  <v-pagination v-model="currentPage" :length="Math.ceil(filteredItems.length / itemsPerPage)" :total-visible="6"
+  <v-pagination v-model="currentPage" :length="Math.ceil(filteredItems.length / itemsPerPage)" :total-visible="10"
     circle />
 </template>
   
