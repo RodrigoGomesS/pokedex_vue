@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" content-class="container-dialog">
       <pokemon-dialog
        :pokemon-name="pokemon.name"
        :pokemon-numero="getId(pokemon)"
@@ -195,6 +195,10 @@ border-radius: 50%;
   text-transform: capitalize;
   font-weight: 500;
   font-size: 11px;
+}
+
+.container-dialog{
+  max-width: 360px !important;
 }
 
 .image-card.grass,

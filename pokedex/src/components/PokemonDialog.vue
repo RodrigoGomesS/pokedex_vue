@@ -1,7 +1,8 @@
 <template>
     <div :class="['d-flex', 'justify-center']">
         <div :class="['background-modal']">
-            <div :class="['image-modal','d-flex', 'align-end','image-card', `${pokemonType}`]">
+            <div :class="['d-flex', 'align-end', 'container-image']">
+                <div :class="['image-modal','image-card', `${pokemonType}`]"></div>
                 <v-img
         :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemonNumero}.gif`"
         contain :class="['responsive-image']"></v-img>
@@ -26,6 +27,11 @@ export default {
 </script>
 
 <style>
+.container-image{
+position: relative;
+min-height: 310px;
+}
+
 .background-modal{
     background-color: #fff;
     width: 100%;
@@ -33,7 +39,11 @@ export default {
 }
 
 .image-modal{
-    min-height: 310px;
+    position: absolute;
+    top: 0;
+    min-height: 85%;
+    width: 100%;
+    background-size: 50%;
     border-radius: 0px !important;
     border-bottom-left-radius: 50% !important;
     border-bottom-right-radius: 50% !important;
@@ -46,6 +56,14 @@ line-height: 48px;
 color: #000000;
 text-transform: capitalize;
 margin-bottom: 0px !important;
+}
+
+.pokeNumero{
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+
+color: rgba(0, 0, 0, 0.7);
 }
 
 </style>
