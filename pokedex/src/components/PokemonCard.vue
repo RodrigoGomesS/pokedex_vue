@@ -2,141 +2,72 @@
   <div>
     <v-dialog v-model="dialog" content-class="container-dialog">
       <pokemon-dialog
-       :pokemon-name="pokemon.name"
+       :pokemon-name="pokemon.name" 
        :pokemon-numero="getId(pokemon)"
-       :pokemon-type="typeClass"
-       ></pokemon-dialog>
+        :pokemon-type="typeClass"
+        :type-list="types"></pokemon-dialog>
     </v-dialog>
-  <div :class="['gradient', typeClass]" @click="dialog = true">
-    <div class="ml-4 d-flex flex-column justify-center">
-      <div class="pokeNumero">N°{{ getId(pokemon) }}</div>
-      <div class="custom-title">{{ pokemon.name }}</div>
-      <div class="d-flex">
-        <div :class="[translateType(type.type.name), 'tipo', 'mr-1', 'd-flex','align-center']" v-for="(type, index) in types" :key="index">
-          <div :class="['tag-element','d-flex','align-center','mr-1']">
-            <img :class="['responsive-image']" :src="getNameType(translateType(type.type.name))" alt="imagem elemento">
-          </div>
-        {{translateType(type.type.name) }}
+    <div :class="['gradient', typeClass]" @click="dialog = true">
+      <div class="ml-4 d-flex flex-column justify-center">
+        <div class="pokeNumero">N°{{ getId(pokemon) }}</div>
+        <div class="custom-title">{{ pokemon.name }}</div>
+        <poke-tag :types="types" ></poke-tag>
       </div>
+      <div :class="['image-card', typeClass]">
+        <v-img
+          :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${getId(pokemon)}.gif`"
+          contain class="responsive-image"></v-img>
       </div>
-    </div>
-    <div :class="['image-card', typeClass]">
-      <v-img
-        :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${getId(pokemon)}.gif`"
-        contain class="responsive-image"></v-img>
     </div>
   </div>
-</div>
-
 </template>
   
 <script>
 import axios from 'axios';
-import água from '../assets/elements/água.png';
-import dragão from '../assets/elements/dragão.png';
-import elétrico from '../assets/elements/elétrico.png';
-import fada from '../assets/elements/fada.png';
-import fantasma from '../assets/elements/fantasma.png';
-import fogo from '../assets/elements/fogo.png';
-import gelo from '../assets/elements/gelo.png';
-import grama from '../assets/elements/grama.png';
-import inseto from '../assets/elements/inseto.png';
-import lutador from '../assets/elements/lutador.png';
-import metálico from '../assets/elements/metálico.png';
-import normal from '../assets/elements/normal.png';
-import pedra from '../assets/elements/pedra.png';
-import psíquico from '../assets/elements/psíquico.png';
-import sombrio from '../assets/elements/sombrio.png';
-import terra from '../assets/elements/terra.png';
-import venenoso from '../assets/elements/venenoso.png';
-import voador from '../assets/elements/água.png';
 import PokemonDialog from '@/components/PokemonDialog.vue';
+import PokeTag from '@/components/PokeTag.vue';
 
 export default {
-    name: "PokemonCard",
-    props: {
-        pokemon: Object
+  name: "PokemonCard",
+  props: {
+    pokemon: Object
+  },
+  data() {
+    return {
+      typeClass: "",
+      types: [],
+      dialog: false,
+    };
+  },
+  methods: {
+    getId(pokemon) {
+      return pokemon.url.split("/")[6];
     },
-    data() {
-        return {
-            typeClass: "",
-            types: [],
-            dialog: false,
-        };
+    async getPokemon(id) {
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      const pokemon = response.data;
+      return pokemon;
     },
-    methods: {
-        getId(pokemon) {
-            return pokemon.url.split("/")[6];
-        },
-        async getPokemon(id) {
-            const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-            const pokemon = response.data;
-            return pokemon;
-        },
-        async getFirstType(id) {
-            const result = await this.getPokemon(id);
-            const primaryType = result.types[0].type.name;
-            this.typeClass = primaryType;
-        },
-        async getTypes(id) {
-            const result = await this.getPokemon(id);
-            const types = result.types;
-            this.types = types; // Define a variável types com o array de tipos
-        },
-        getNameType(typeName) {
-            const typeImage = {
-                "água": água,
-                "dragão": dragão,
-                "elétrico": elétrico,
-                "fada": fada,
-                "fantasma": fantasma,
-                "fogo": fogo,
-                "gelo": gelo,
-                "grama": grama,
-                "inseto": inseto,
-                "lutador": lutador,
-                "metálico": metálico,
-                "normal": normal,
-                "pedra": pedra,
-                "psíquico": psíquico,
-                "sombrio": sombrio,
-                "terra": terra,
-                "venenoso": venenoso,
-                "voador": voador,
-            };
-            return typeImage[typeName];
-        },
-        translateType(type) {
-            // Define um objeto com as traduções de cada tipo
-            const translations = {
-                "fire": "fogo",
-                "water": "água",
-                "grass": "grama",
-                "bug": "inseto",
-                "normal": "normal",
-                "poison": "venenoso",
-                "electric": "elétrico",
-                "ground": "terra",
-                "fighting": "lutador",
-                "psychic": "psíquico",
-                "rock": "pedra",
-                "flying": "voador",
-                "ghost": "fantasma",
-                "ice": "gelo",
-                "dragon": "dragão",
-                "steel": "metálico",
-                "dark": "sombrio",
-                "fairy": "fada",
-                // Adicione as traduções para os outros tipos
-            };
-            return translations[type] || type; // Retorna a tradução, ou o próprio nome do tipo caso não tenha tradução
-        }
+    async getFirstType(id) {
+      const result = await this.getPokemon(id);
+      const primaryType = result.types[0].type.name;
+      this.typeClass = primaryType;
     },
-    created() {
-        this.getTypes(this.getId(this.pokemon));
-        this.getFirstType(this.getId(this.pokemon));
+    async getTypes(id) {
+      const result = await this.getPokemon(id);
+      const types = result.types;
+      this.types = types; // Define a variável types com o array de tipos
     },
-    components: { PokemonDialog }
+
+  },
+  created() {
+    this.getTypes(this.getId(this.pokemon));
+    this.getFirstType(this.getId(this.pokemon));
+  },
+  components: {
+     PokemonDialog,
+     PokeTag,
+     }
 }
 </script>
 
@@ -157,13 +88,6 @@ export default {
   display: flex;
   align-items: center;
   /*background-image: url('../assets/dark.png');*/
-}
-
-.tag-element{
- width: 20.31px;
-height: 20.31px;
-background: #FFFFFF;
-border-radius: 50%;
 }
 
 .responsive-image {
@@ -189,15 +113,7 @@ border-radius: 50%;
   color: #333333;
 }
 
-.tipo {
-  border-radius: 48.6079px;
-  padding: 2.90196px 6px;
-  text-transform: capitalize;
-  font-weight: 500;
-  font-size: 11px;
-}
-
-.container-dialog{
+.container-dialog {
   max-width: 360px !important;
 }
 
@@ -431,7 +347,7 @@ border-radius: 50%;
 .fada {
   background-image: unset;
   background-position: unset;
-  border-radius: 48px;  
+  border-radius: 48px;
 }
 
 .grass.gradient {
@@ -505,6 +421,5 @@ border-radius: 50%;
 .fairy.gradient {
   background-color: #FBF1FA;
 }
-
 </style>
 
