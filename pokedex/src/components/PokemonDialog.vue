@@ -10,7 +10,9 @@
             <div :class="['ml-4']">
                 <p :class="['pokeName']">{{ pokemonName }}</p>
                 <div :class="['pokeNumero']">N°{{ pokemonNumero }}</div>
-                <poke-tag :types="typeList"></poke-tag>
+                <div :class="['my-6']">
+                    <poke-tag :types="typeList"></poke-tag>
+                </div>
             </div>
         </div>
     </div>
